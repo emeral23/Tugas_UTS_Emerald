@@ -1,63 +1,74 @@
-# ERD — Sistem Perekaman Suara
+# Sistem Perekaman Suara - Dokumentasi ERD
 
-Diagram Entity Relationship (ERD) di bawah ini menggambarkan struktur data utama aplikasi, yang disusun berdasarkan file migration dan model pada aplikasi Laravel.
+Dokumentasi struktur database utama untuk aplikasi Sistem Perekaman Suara yang dibangun menggunakan Laravel.
 
-```mermaid
-erDiagram
-    HABITATS ||--o{ REKAMANS : memiliki
-    TITIK_PEREKAMANS ||--o| REKAMANS : lokasi
-    REKAMANS ||--o{ ANOTASI_REKAMAN : memiliki
-    ANOTASIS ||--o{ ANOTASI_REKAMAN : digunakan
+## 1. Tabel \`habitats\`
 
-    HABITATS {
-        bigint id PK
-        varchar kode_habitat UK
-        varchar nama_habitat
-        text deskripsi "nullable"
-        timestamp created_at
-        timestamp updated_at
-    }
+| Kolom | Tipe Data | Keterangan |
+| :--- | :--- | :--- |
+| \`id\` | bigint | Primary Key (Identifikasi unik baris) |
+| \`kode_habitat\` | varchar | Unique Key (Kode unik habitat) |
+| \`nama_habitat\` | varchar | Nama habitat (contoh: Hutan Lindung, Mangrove) |
+| \`deskripsi\` | text | Penjelasan opsional (*nullable*) |
+| \`created_at\` | timestamp | Waktu data dibuat |
+| \`updated_at\` | timestamp | Waktu data diperbarui |
 
-    TITIK_PEREKAMANS {
-        bigint id PK
-        varchar koordinat_gps
-        varchar lokasi_spesifik
-        decimal elevasi_mdpl "nullable"
-        timestamp created_at
-        timestamp updated_at
-    }
+---
 
-    REKAMANS {
-        bigint id PK
-        bigint habitat_id FK
-        bigint titik_perekaman_id FK_UK
-        varchar kode_rekaman UK
-        varchar nama_rekaman
-        date tanggal_perekaman
-        varchar perekam
-        boolean status_validasi "default false"
-        timestamp created_at
-        timestamp updated_at
-    }
+## 2. Tabel \`titik_perekamans\`
 
-    ANOTASIS {
-        bigint id PK
-        varchar kode_anotasi UK
-        varchar jenis_suara
-        text keterangan "nullable"
-        timestamp created_at
-        timestamp updated_at
-    }
+| Kolom | Tipe Data | Keterangan |
+| :--- | :--- | :--- |
+| \`id\` | bigint | Primary Key (Identifikasi unik baris) |
+| \`koordinat_gps\` | varchar | Titik koordinat GPS lokasi |
+| \`lokasi_spesifik\` | varchar | Keterangan detail lokasi di lapangan |
+| \`elevasi_mdpl\` | decimal | Ketinggian dari permukaan laut, opsional (*nullable*) |
+| \`created_at\` | timestamp | Waktu data dibuat |
+| \`updated_at\` | timestamp | Waktu data diperbarui |
 
-    ANOTASI_REKAMAN {
-        bigint id PK
-        bigint rekaman_id FK
-        bigint anotasi_id FK
-        varchar frekuensi_dominan "nullable"
-        timestamp created_at
-        timestamp updated_at
-    }
-```
+---
+
+## 3. Tabel \`rekamans\`
+
+| Kolom | Tipe Data | Keterangan |
+| :--- | :--- | :--- |
+| \`id\` | bigint | Primary Key (Identifikasi unik baris) |
+| \`habitat_id\` | bigint | Foreign Key ke tabel \`habitats\` (Wajib diisi) |
+| \`titik_perekaman_id\` | bigint | Foreign Key & Unique Key ke \`titik_perekamans\` (1 ke 1) |
+| \`kode_rekaman\` | varchar | Unique Key (Kode unik rekaman) |
+| \`nama_rekaman\` | varchar | Judul atau nama file rekaman |
+| \`tanggal_perekaman\` | date | Tanggal saat perekaman diambil |
+| \`perekam\` | varchar | Nama petugas atau alat perekam |
+| \`status_validasi\` | boolean | Status validasi data, *default false* |
+| \`created_at\` | timestamp | Waktu data dibuat |
+| \`updated_at\` | timestamp | Waktu data diperbarui |
+
+---
+
+## 4. Tabel \`anotasis\`
+
+| Kolom | Tipe Data | Keterangan |
+| :--- | :--- | :--- |
+| \`id\` | bigint | Primary Key (Identifikasi unik baris) |
+| \`kode_anotasi\` | varchar | Unique Key (Kode unik anotasi) |
+| \`jenis_suara\` | varchar | Kategori jenis suara (misal: Burung, Serangga, Amfibi) |
+| \`keterangan\` | text | Catatan tambahan, opsional (*nullable*) |
+| \`created_at\` | timestamp | Waktu data dibuat |
+| \`updated_at\` | timestamp | Waktu data diperbarui |
+
+---
+
+## 5. Tabel \`anotasi_rekaman\`
+Tabel perantara (*pivot table*) untuk menangani relasi *many-to-many* antara tabel \`rekamans\` dan \`anotasis\`.
+
+| Kolom | Tipe Data | Keterangan |
+| :--- | :--- | :--- |
+| \`id\` | bigint | Primary Key (Identifikasi unik baris) |
+| \`rekaman_id\` | bigint | Foreign Key merujuk ke tabel \`rekamans\` |
+| \`anotasi_id\` | bigint | Foreign Key merujuk ke tabel \`anotasis\` |
+| \`frekuensi_dominan\` | varchar | Atribut tambahan frekuensi suara, opsional (*nullable*) |
+| \`created_at\` | timestamp | Waktu data dibuat |
+| \`updated_at\` | timestamp | Waktu data diperbarui |
 
 ## Relasi Antar Entitas
 
