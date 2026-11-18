@@ -2,73 +2,73 @@
 
 Dokumentasi struktur database utama untuk aplikasi Sistem Perekaman Suara yang dibangun menggunakan Laravel.
 
-## 1. Tabel \habitats\
+## 1. Tabel  habitats 
 
 | Kolom | Tipe Data | Keterangan |
 | :--- | :--- | :--- |
-| \ id\ | bigint | Primary Key (Identifikasi unik baris) |
-| \kode_habitat\ | varchar | Unique Key (Kode unik habitat) |
-| \nama_habitat\ | varchar | Nama habitat (contoh: Hutan Lindung, Mangrove) |
-| \deskripsi\ | text | Penjelasan opsional (*nullable*) |
-| \created_at\ | timestamp | Waktu data dibuat |
-| \updated_at\ | timestamp | Waktu data diperbarui |
+|   id  | bigint | Primary Key (Identifikasi unik baris) |
+|  kode_habitat  | varchar | Unique Key (Kode unik habitat) |
+|  nama_habitat  | varchar | Nama habitat (contoh: Hutan Lindung, Mangrove) |
+|  deskripsi  | text | Penjelasan opsional (*nullable*) |
+|  created_at  | timestamp | Waktu data dibuat |
+|  updated_at  | timestamp | Waktu data diperbarui |
 
 ---
 
-## 2. Tabel \titik_perekamans\
+## 2. Tabel  titik_perekamans 
 
 | Kolom | Tipe Data | Keterangan |
 | :--- | :--- | :--- |
-| \id\ | bigint | Primary Key (Identifikasi unik baris) |
-| \koordinat_gps\ | varchar | Titik koordinat GPS lokasi |
-| \lokasi_spesifik\ | varchar | Keterangan detail lokasi di lapangan |
-| \elevasi_mdpl\ | decimal | Ketinggian dari permukaan laut, opsional (*nullable*) |
-| \created_at\ | timestamp | Waktu data dibuat |
-| \updated_at\ | timestamp | Waktu data diperbarui |
+|  id  | bigint | Primary Key (Identifikasi unik baris) |
+|  koordinat_gps  | varchar | Titik koordinat GPS lokasi |
+|  lokasi_spesifik  | varchar | Keterangan detail lokasi di lapangan |
+|  elevasi_mdpl  | decimal | Ketinggian dari permukaan laut, opsional (*nullable*) |
+|  created_at  | timestamp | Waktu data dibuat |
+|  updated_at  | timestamp | Waktu data diperbarui |
 
 ---
 
-## 3. Tabel \rekamans\
+## 3. Tabel  rekamans 
 
 | Kolom | Tipe Data | Keterangan |
 | :--- | :--- | :--- |
-| \id\ | bigint | Primary Key (Identifikasi unik baris) |
-| \habitat_id\ | bigint | Foreign Key ke tabel \habitats\ (Wajib diisi) |
-| \titik_perekaman_id\ | bigint | Foreign Key & Unique Key ke \titik_perekamans\ (1 ke 1) |
-| \kode_rekaman\ | varchar | Unique Key (Kode unik rekaman) |
-| \nama_rekaman\ | varchar | Judul atau nama file rekaman |
-| \tanggal_perekaman\ | date | Tanggal saat perekaman diambil |
-| \perekam\ | varchar | Nama petugas atau alat perekam |
-| \status_validasi\ | boolean | Status validasi data, *default false* |
-| \created_at\ | timestamp | Waktu data dibuat |
-| \updated_at\ | timestamp | Waktu data diperbarui |
+|  id  | bigint | Primary Key (Identifikasi unik baris) |
+|  habitat_id  | bigint | Foreign Key ke tabel  habitats  (Wajib diisi) |
+|  titik_perekaman_id  | bigint | Foreign Key & Unique Key ke  titik_perekamans  (1 ke 1) |
+|  kode_rekaman  | varchar | Unique Key (Kode unik rekaman) |
+|  nama_rekaman  | varchar | Judul atau nama file rekaman |
+|  tanggal_perekaman  | date | Tanggal saat perekaman diambil |
+|  perekam  | varchar | Nama petugas atau alat perekam |
+|  status_validasi  | boolean | Status validasi data, *default false* |
+|  created_at  | timestamp | Waktu data dibuat |
+|  updated_at  | timestamp | Waktu data diperbarui |
 
 ---
 
-## 4. Tabel \anotasis\
+## 4. Tabel  anotasis 
 
 | Kolom | Tipe Data | Keterangan |
 | :--- | :--- | :--- |
-| \id\ | bigint | Primary Key (Identifikasi unik baris) |
-| \kode_anotasi\ | varchar | Unique Key (Kode unik anotasi) |
-| \jenis_suara\ | varchar | Kategori jenis suara (misal: Burung, Serangga, Amfibi) |
-| \keterangan\ | text | Catatan tambahan, opsional (*nullable*) |
-| \created_at\ | timestamp | Waktu data dibuat |
-| \updated_at\ | timestamp | Waktu data diperbarui |
+|  id  | bigint | Primary Key (Identifikasi unik baris) |
+|  kode_anotasi  | varchar | Unique Key (Kode unik anotasi) |
+|  jenis_suara  | varchar | Kategori jenis suara (misal: Burung, Serangga, Amfibi) |
+|  keterangan  | text | Catatan tambahan, opsional (*nullable*) |
+|  created_at  | timestamp | Waktu data dibuat |
+|  updated_at  | timestamp | Waktu data diperbarui |
 
 ---
 
-## 5. Tabel \anotasi_rekaman\
-Tabel perantara (*pivot table*) untuk menangani relasi *many-to-many* antara tabel \rekamans\ dan \anotasis\.
+## 5. Tabel  anotasi_rekaman 
+Tabel perantara (*pivot table*) untuk menangani relasi *many-to-many* antara tabel  rekamans  dan  anotasis .
 
 | Kolom | Tipe Data | Keterangan |
 | :--- | :--- | :--- |
-| \id\ | bigint | Primary Key (Identifikasi unik baris) |
-| \rekaman_id\ | bigint | Foreign Key merujuk ke tabel \rekamans\ |
-| \anotasi_id\ | bigint | Foreign Key merujuk ke tabel \anotasis\ |
-| \frekuensi_dominan\ | varchar | Atribut tambahan frekuensi suara, opsional (*nullable*) |
-| \created_at\ | timestamp | Waktu data dibuat |
-| \updated_at\ | timestamp | Waktu data diperbarui |
+|  id  | bigint | Primary Key (Identifikasi unik baris) |
+|  rekaman_id  | bigint | Foreign Key merujuk ke tabel  rekamans  |
+|  anotasi_id  | bigint | Foreign Key merujuk ke tabel  anotasis  |
+|  frekuensi_dominan  | varchar | Atribut tambahan frekuensi suara, opsional (*nullable*) |
+|  created_at  | timestamp | Waktu data dibuat |
+|  updated_at  | timestamp | Waktu data diperbarui |
 
 ## Relasi Antar Entitas
 
