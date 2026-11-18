@@ -4,39 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Laboratorium Bioakustik - SK03')</title>
-    <!-- Menggunakan CDN Tailwind CSS untuk kemudahan styling kustom cepat -->
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <style>
-        @media (min-width: 768px) {
-            #app-sidebar[data-collapsed="true"] {
-                width: 5rem;
-            }
-
-            #app-sidebar[data-collapsed="true"] [data-sidebar-label] {
-                display: none;
-            }
-
-            #app-sidebar[data-collapsed="true"] .sidebar-link {
-                justify-content: center;
-                padding-left: 0.75rem;
-                padding-right: 0.75rem;
-            }
-
-            #app-sidebar[data-collapsed="true"] #desktop-sidebar-toggle svg {
-                transform: rotate(180deg);
-            }
-        }
-
-        #app-sidebar {
-            transition: width 180ms ease, transform 180ms ease;
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-            #app-sidebar {
-                transition: none;
-            }
-        }
-    </style>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="min-h-screen bg-slate-50 font-sans text-slate-800 antialiased">
     <header class="sticky top-0 z-20 border-b border-emerald-950 bg-emerald-950 text-white shadow-sm">
@@ -122,42 +90,5 @@
         </div>
     </div>
 
-    <script>
-        const sidebar = document.getElementById('app-sidebar');
-        const mobileToggle = document.getElementById('mobile-sidebar-toggle');
-        const desktopToggle = document.getElementById('desktop-sidebar-toggle');
-        const sidebarBackdrop = document.getElementById('sidebar-backdrop');
-
-        function setMobileSidebarOpen(isOpen) {
-            sidebar.classList.toggle('hidden', !isOpen);
-            sidebarBackdrop.classList.toggle('hidden', !isOpen);
-            mobileToggle.setAttribute('aria-expanded', String(isOpen));
-            mobileToggle.setAttribute('aria-label', isOpen ? 'Tutup menu navigasi' : 'Buka menu navigasi');
-            document.body.classList.toggle('overflow-hidden', isOpen);
-        }
-
-        mobileToggle.addEventListener('click', function () {
-            setMobileSidebarOpen(mobileToggle.getAttribute('aria-expanded') !== 'true');
-        });
-
-        sidebarBackdrop.addEventListener('click', function () {
-            setMobileSidebarOpen(false);
-        });
-
-        desktopToggle.addEventListener('click', function () {
-            const isCollapsed = sidebar.dataset.collapsed !== 'true';
-            sidebar.dataset.collapsed = String(isCollapsed);
-            desktopToggle.setAttribute('aria-expanded', String(!isCollapsed));
-            desktopToggle.setAttribute('aria-label', isCollapsed ? 'Perluas menu samping' : 'Ciutkan menu samping');
-            desktopToggle.setAttribute('title', isCollapsed ? 'Perluas menu samping' : 'Ciutkan menu samping');
-        });
-
-        document.addEventListener('keydown', function (event) {
-            if (event.key === 'Escape' && mobileToggle.getAttribute('aria-expanded') === 'true') {
-                setMobileSidebarOpen(false);
-                mobileToggle.focus();
-            }
-        });
-    </script>
 </body>
 </html>
